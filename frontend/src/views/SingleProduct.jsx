@@ -1,23 +1,37 @@
 import { useLocation } from "react-router-dom";
 import PageNavigation from "../pages/PageNavigation";
 import RatingStars from "../pages/RatingStars";
+import { useDispatch, useSelector } from "react-redux";
+import { increment, decrement } from "../slice/CartCountSlice";
 
 const SingleProduct = () => {
+  const dispatch = useDispatch();
+
+  //
+  const cartCount = useSelector((state) => state.cartCount.value);
+
   const { state } = useLocation();
   const product = state?.product;
 
-  if (!product) return <div>No product data available</div>;
+  if (!product) 
+    return (
+      <div>
+        <p>No product data available</p>
+        <a href="/" className="text-blue-600 hover:underline">Go back to homepage</a>
+      </div>
+    );
 
-  const { id, title, price, description, category, image, rating } = product;
+  const { title, price, description, category, image, rating } = product;
+  const { rate = 0, count = 0 } = rating || {}; 
+  const displayPrice = price ? price.toFixed(2) : "0.00";
 
   return (
     <div className="container px-4 py-8 mx-auto">
-      {/* Page Navigation */}
+     
       <PageNavigation title={title} />
 
-      {/* Product Content */}
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-        {/* Product Image */}
+      
         <div className="flex items-center justify-center">
           <img
             src={image}
@@ -26,29 +40,45 @@ const SingleProduct = () => {
           />
         </div>
 
-        {/* Product Details */}
+       
         <div className="flex flex-col justify-center space-y-4">
-          {/* Title */}
+     
           <h1 className="text-2xl font-bold text-gray-800 md:text-3xl">{title}</h1>
 
-          
-          {/* <div className="flex items-center space-x-2 text-yellow-500">
-            <span className="text-lg font-medium">{rating.rate} ★</span>
-            <span className="text-sm text-gray-500">({rating.count} reviews)</span>
-          </div> */}
-           <RatingStars rating={rating?.rate} />
+      
+          <div className="flex items-center space-x-2">
+            <RatingStars rating={rate} />
+            <span className="text-sm text-gray-500">({count} reviews)</span>
+          </div>
 
-          {/* Price */}
-          <p className="text-xl font-semibold text-gray-900">${price.toFixed(2)}</p>
+         
+          <p className="text-xl font-semibold text-gray-900">${displayPrice}</p>
 
-          {/* Description */}
+       
           <p className="leading-relaxed text-gray-600">{description}</p>
 
-          {/* Category */}
+          
           <p className="text-sm text-gray-500 uppercase">Category: {category}</p>
-
-          {/* Brand (Placeholder for now) */}
           <p className="text-sm text-gray-500 uppercase">Brand: {title}</p>
+
+          
+          <div className="flex items-center space-x-2">
+            <button
+              aria-label="Increase quantity"
+              className="px-4 py-2 bg-gray-200 rounded"
+              onClick={() => dispatch(increment())} 
+            >
+              +
+            </button>
+            <span className="text-lg font-semibold">{cartCount}</span> {/* Dynamic value */}
+            <button
+              aria-label="Decrease quantity"
+              className="px-4 py-2 bg-gray-200 rounded"
+              onClick={() => dispatch(decrement())} 
+            >
+              -
+            </button>
+          </div>
 
           {/* Add to Cart Button */}
           <button className="px-6 py-3 mt-4 text-lg font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300">

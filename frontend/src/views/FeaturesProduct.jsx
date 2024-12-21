@@ -4,6 +4,7 @@ import { ShowProductDetails } from "../slice/ProductDetailsSlice";
 import { NavLink } from "react-router-dom";
 
 const FeaturesProduct = () => {
+  
   const dispatch = useDispatch();
 
   // Ensure this matches the key in your Redux store
