@@ -6,6 +6,7 @@ export const store = configureStore({
     reducer: {
         contact : contactDetails,
         products: ProductDetails,
+       
 
     },
   })

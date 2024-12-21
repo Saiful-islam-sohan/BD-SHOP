@@ -6,6 +6,7 @@ const initialState = {
   error: null,
 };
 
+
 // Async thunk to fetch product details
 export const ShowProductDetails = createAsyncThunk(
   "showProduct",
@@ -27,6 +28,8 @@ export const ShowProductDetails = createAsyncThunk(
   }
 );
 
+
+
 // ProductDetails slice
 export const ProductDetails = createSlice({
   name: "ProductDetails",
@@ -45,6 +48,7 @@ export const ProductDetails = createSlice({
         state.loading = false;
         state.error = action.payload; // Use the error message from rejectWithValue
       });
+      
   },
 });
 

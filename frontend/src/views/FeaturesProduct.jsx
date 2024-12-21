@@ -42,6 +42,7 @@ const FeaturesProduct = () => {
         {products.slice(0, 4).map((product) => (
           <NavLink
             key={product.id}
+            state={{ product }}
             to={`/singleProduct/${product.id}`}
             className="overflow-hidden transition-shadow bg-white border border-gray-200 rounded-lg shadow-lg hover:shadow-xl"
           >
